@@ -73,21 +73,25 @@ find_package(Clang REQUIRED)
 if(CLANG_LINK_CLANG_DYLIB)
   target_link_libraries(ccls PRIVATE clang-cpp)
 else()
-  target_link_libraries(ccls PRIVATE
-    clangIndex
-    clangFormat
-    clangTooling
-    clangToolingInclusions
-    clangToolingCore
-    clangFrontend
-    clangParse
-    clangSerialization
-    clangSema
-    clangAST
-    clangLex
-    clangDriver
-    clangBasic
-  )
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
+    target_link_libraries(ccls PRIVATE clang clang-cpp)
+  else()
+    target_link_libraries(ccls PRIVATE
+      clangIndex
+      clangFormat
+      clangTooling
+      clangToolingInclusions
+      clangToolingCore
+      clangFrontend
+      clangParse
+      clangSerialization
+      clangSema
+      clangAST
+      clangLex
+      clangDriver
+      clangBasic
+      )
+  endif()
 endif()
 
 if(LLVM_LINK_LLVM_DYLIB)
